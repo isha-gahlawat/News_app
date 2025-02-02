@@ -14,15 +14,15 @@ const ContextProvider = (props) => {
   const [category, setcategory] = useState("general");
   const [page, setpage] = useState(1);
   const [progress, setprogress] = useState(0);
-  const [hasMore, setHasMore] = useState(true)
+  const [hasMore, setHasMore] = useState(true);
 
   const onload = async (change = "general") => {
     setloading(true);
     setcategory(change);
-    setpage(1); 
+    setpage(1);
     setprogress(0);
-    setHasMore(true); 
-    setarticle([]); 
+    setHasMore(true);
+    setarticle([]);
 
     // Cache key based on category and page
     const cacheKey = `page-1-us-${change}`;
@@ -42,7 +42,7 @@ const ContextProvider = (props) => {
     // Fetch data if not in cache
     try {
       let data = await srch(1, "us", change);
-      console.log("Fetched new data",data);
+      console.log("Fetched new data", data);
       if (data) {
         setprogress(30);
         setarticle(data.articles || []);
@@ -63,7 +63,6 @@ const ContextProvider = (props) => {
 
     setloading(false);
   };
-
 
   const fetchMOREData = async () => {
     if (loading || !hasMore) return;
@@ -86,10 +85,9 @@ const ContextProvider = (props) => {
         if (data.articles.length === 0) {
           console.log("No more articles available. Stopping infinite scroll.");
           setHasMore(false);
-          
         } else {
           setarticle((prevArticles) => [...prevArticles, ...data.articles]);
-  
+
           setCache((prevCache) => ({
             ...prevCache,
             [cacheKey]: data,
@@ -118,7 +116,7 @@ const ContextProvider = (props) => {
     fetchMOREData,
     progress,
     setprogress,
-    hasMore
+    hasMore,
   };
 
   return (
